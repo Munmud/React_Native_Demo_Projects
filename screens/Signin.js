@@ -13,8 +13,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import UserInput from "../components/auth/UserInput";
 import SubmitButton from "../components/auth/SubmitButton";
 
-const Signup = () => {
-  const [name, setName] = useState("");
+const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -29,7 +28,6 @@ const Signup = () => {
     try {
       //
       const data = await axios.post("http://localhost:8000/api/signup", {
-        name,
         email,
         password,
       });
@@ -45,14 +43,8 @@ const Signup = () => {
   return (
     <KeyboardAwareScrollView contentContainerStyle={styles.container}>
       <Text title center>
-        Sign Up
+        Sign In
       </Text>
-      <UserInput
-        name="NAME"
-        value={name}
-        setValue={setName}
-        autoCapitalize="words"
-      />
       <UserInput
         name="EMAIL"
         value={email}
@@ -68,18 +60,22 @@ const Signup = () => {
         autoCompleteType="password"
       />
       <SubmitButton
-        title="Signup"
+        title="Sign In"
         handleSubmit={handleSubmit}
         loading={loading}
       />
       <Text small center>
-        Already Joined ?
+        Not yet Registered ?
         <Text
           color="#ff2222"
           // onPress={}
         >
-          Sign In
+          Sign Up
         </Text>
+      </Text>
+
+      <Text small center color="orange" style={{ marginTop: 10 }}>
+        Forgot Password ?
       </Text>
 
       {/* <Text>{JSON.stringify({ name, email, password }, null, 4)}</Text> */}
@@ -95,4 +91,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Signup;
+export default Signin;
