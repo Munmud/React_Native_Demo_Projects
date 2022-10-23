@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -9,32 +9,39 @@ import {
 import Text from "@kaloraat/react-native-text";
 import axios from "axios";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import UserInput from "../components/auth/UserInput";
 import SubmitButton from "../components/auth/SubmitButton";
+import { AuthContext } from "../context/auth";
 
-const Signin = () => {
+const Signin = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [state, setState] = useContext(AuthContext);
 
   const handleSubmit = async () => {
     setLoading(true);
-    if (!name || !email || !password) {
+    if (!email || !password) {
       alert("All fields are required");
       setLoading(false);
       return;
     }
     try {
       //
-      const data = await axios.post("http://localhost:8000/api/signup", {
+      const { data } = await axios.post("/signin", {
         email,
         password,
       });
-      console.log("Submitted");
-      alert("Sign up success");
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      setState(data);
+      await AsyncStorage.setItem("@auth", JSON.stringify(data));
+      navigation.navigate("Home");
     } catch (err) {
-      console.log(err);
+      alert(err);
     } finally {
       setLoading(false);
     }
@@ -65,11 +72,8 @@ const Signin = () => {
         loading={loading}
       />
       <Text small center>
-        Not yet Registered ?
-        <Text
-          color="#ff2222"
-          // onPress={}
-        >
+        Not yet Registered?{" "}
+        <Text color="#ff2222" onPress={() => navigation.navigate("Signup")}>
           Sign Up
         </Text>
       </Text>

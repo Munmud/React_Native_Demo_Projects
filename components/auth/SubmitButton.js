@@ -14,6 +14,7 @@ export default function SubmitButton({ title, handleSubmit, loading }) {
         marginHorizontal: 15,
         borderRadius: 24,
       }}
+      disabled={loading}
       onPress={handleSubmit}
     >
       <Text center bold medium>
