@@ -1,14 +1,16 @@
-import { View, StyleSheet } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
 import React, { useContext } from "react";
 import Text from "@kaloraat/react-native-text";
 import { AuthContext } from "../context/auth";
+import FooterTabs from "../components/nav/FooterTabs";
 
 export default function Home() {
   const [state, setState] = useContext(AuthContext);
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text>{JSON.stringify(state, null, 4)}</Text>
-    </View>
+      <FooterTabs />
+    </SafeAreaView>
   );
 }
 
@@ -16,6 +18,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
   },
 });
