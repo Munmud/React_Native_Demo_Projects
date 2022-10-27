@@ -1,2 +1,2 @@
 // root
-export const API = "https://flat-crabs-design-103-187-68-233.loca.lt/api";
+export const API = "https://khaki-crews-retire-103-187-68-233.loca.lt/api/";

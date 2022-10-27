@@ -1,14 +1,12 @@
-import { SafeAreaView, View } from "react-native";
-import React, { useContext } from "react";
+import React from "react";
+import { View, SafeAreaView } from "react-native";
 import Text from "@kaloraat/react-native-text";
-import { AuthContext } from "../context/auth";
 import FooterTabs from "../components/nav/FooterTabs";
 
-export default function Home() {
-  const [state, setState] = useContext(AuthContext);
+export default function Links() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <Text>{JSON.stringify(state, null, 4)}</Text>
+      <Text>Links Screen</Text>
       <View style={{ flex: 1, justifyContent: "flex-end" }}>
         <FooterTabs />
       </View>

@@ -1,13 +1,27 @@
-
 import User from "../models/user";
 import { hashPassword, comparePassword } from "../helpers/auth";
 import jwt from "jsonwebtoken";
 import nanoid from "nanoid";
+const expressjwt = require("express-jwt");
+const cloudinary = require("cloudinary");
 
 // sendgrid
 require("dotenv").config();
 const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_KEY);
+
+// cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECREAT,
+});
+
+// middleware
+exports.requireSignin = expressjwt({
+  secret: process.env.JWT_SECRET,
+  algorithms: ["HS256"],
+});
 
 export const signup = async (req, res) => {
   console.log("HIT SIGNUP");
@@ -117,7 +131,7 @@ export const forgotPassword = async (req, res) => {
     from: process.env.EMAIL_FROM,
     to: user.email,
     subject: "Password reset code",
-    html: "<h1>Your password  reset code is: {resetCode}</h1>"
+    html: "<h1>Your password  reset code is: {resetCode}</h1>",
   };
   // send email
   try {
@@ -151,6 +165,36 @@ export const resetPassword = async (req, res) => {
     user.resetCode = "";
     user.save();
     return res.json({ ok: true });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const uploadImage = async (req, res) => {
+  // console.log("uploading... image", req.user);
+  try {
+    const result = await cloudinary.uploader.upload(req.body.image, {
+      // req.
+      public_id: nanoid(),
+      resource_type: "jpg",
+    });
+    // console.log("Cloudinary Result =>", result);
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        image: {
+          public_id: result.public_id,
+          url: result.secure_url,
+        },
+      },
+      { new: true }
+    );
+    return res.json({
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      image: user.image,
+    });
   } catch (err) {
     console.log(err);
   }

@@ -14,10 +14,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import UserInput from "../components/auth/UserInput";
 import SubmitButton from "../components/auth/SubmitButton";
 import { AuthContext } from "../context/auth";
+import CircleLogo from "../components/auth/CircleLogo";
 
 const Signin = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("moontasir042@gmail.com");
+  const [password, setPassword] = useState("1234567");
   const [loading, setLoading] = useState(false);
   const [state, setState] = useContext(AuthContext);
 
@@ -52,6 +53,7 @@ const Signin = ({ navigation }) => {
       <Text title center>
         Sign In
       </Text>
+      <CircleLogo />
       <UserInput
         name="EMAIL"
         value={email}

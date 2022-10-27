@@ -22,3 +22,6 @@ Open 3 terminal as follow :
 - `npm install -g localtunnel`
 - `npm install @react-native-async-storage/async-storage`
 - `npm i react-native-vector-icons`
+- `npm i react-native-elements`
+- `npm install cloudinary`
+- `expo install expo-image-picker`
