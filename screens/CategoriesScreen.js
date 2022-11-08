@@ -1,17 +1,16 @@
-import { View, Text, FlatList } from "react-native";
-import React from "react";
+import { FlatList } from 'react-native';
+import CategoryGridTile from '../components/CategoryGridTile';
 
-import CategoryGridTile from "../components/CategoryGridTile";
+import { CATEGORIES } from '../data/dummy-data';
 
-import { CATEGORIES } from "../data/dummy-data";
-
-export default function CategoriesScreen({ navigation }) {
+function CategoriesScreen({ navigation }) {
   function renderCategoryItem(itemData) {
     function pressHandler() {
-      navigation.navigate("MealsOverview", {
+      navigation.navigate('MealsOverview', {
         categoryId: itemData.item.id,
       });
     }
+
     return (
       <CategoryGridTile
         title={itemData.item.title}
@@ -20,15 +19,15 @@ export default function CategoriesScreen({ navigation }) {
       />
     );
   }
+
   return (
-    <View>
-      {/* <Text>CategoriesScreen</Text> */}
-      <FlatList
-        data={CATEGORIES}
-        keyExtractor={(item) => item.id}
-        renderItem={renderCategoryItem}
-        numColumns={2}
-      />
-    </View>
+    <FlatList
+      data={CATEGORIES}
+      keyExtractor={(item) => item.id}
+      renderItem={renderCategoryItem}
+      numColumns={2}
+    />
   );
 }
+
+export default CategoriesScreen;
